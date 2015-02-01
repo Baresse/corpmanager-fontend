@@ -1,0 +1,104 @@
+/* app css stylesheet */
+.ngSortPriority {
+    position: absolute;
+    top: 0;
+    left: 1px;
+    font-size: 6pt;
+    font-weight: bold;
+}
+
+.ngTopPanel {
+    width: 980px !important;
+}
+
+.ngViewport {
+    width: 980px !important;
+}
+
+.gridStyle {
+    border: 0 solid rgb(212, 212, 212);
+    width: 950px;
+    height: 1000px;
+}
+
+.gridColHeader {
+    text-align: center;
+}
+
+.gridColNumber {
+    text-align: right;
+}
+
+.connection {
+    height: 60px;
+}
+
+.origin {
+    height: 30px;
+}
+
+.kill {
+    padding: 4px 0 4px 20px;
+    background: url('img/kills.png') no-repeat left;
+    font-size: 120%;
+}
+
+.evegate {
+    padding: 4px 0 4px 20px;
+    background: url('img/evegate.png') no-repeat left;
+    font-size: 120%;
+}
+
+.eveboard {
+    padding: 4px 0 4px 20px;
+    background: url('img/eveboard.png') no-repeat left;
+    font-size: 120%;
+}
+
+.evesearch {
+    padding: 4px 0 4px 20px;
+    background: url('img/evesearch.png') no-repeat left;
+    font-size: 120%;
+}
+
+.evewho {
+    padding: 4px 0 4px 20px;
+    background: url('img/evewho.png') no-repeat left;
+    font-size: 120%;
+}
+
+.imgPilot {
+    width: 256px;
+    height: 256px;
+}
+
+.imgCorpoAlliance {
+    width: 30px;
+    height: 30px;
+}
+
+.badge-important {
+    background-color: #b94a48;
+}
+
+.panel {
+    padding-top: 60px;
+    padding-bottom: 10px;
+}
+
+.resultPanel {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center-line {
+    margin-top: 3px;
+    width: 100%;
+    text-align: center;
+}

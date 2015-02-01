@@ -1,0 +1,18 @@
+<div ng-controller="WalletController as ctrl" class="panel">
+    <div class="container">
+
+        <form role="form" ng-submit="ctrl.fetchCorporationWallet(ctrl.month)" novalidate>
+            <div class="form-group">
+                <label for="month">Mois</label>
+                <input type="month" class="form-control" id="month" ng-model="ctrl.month"
+                       placeholder="Saisir le mois ici..." required/>
+            </div>
+            <button type="submit" class="btn btn-default">Contributions...</button>
+        </form>
+    </div>
+
+    <div class="container resultPanel" ng-show="ctrl.walletJournal">
+        <div class="gridStyle" ng-grid="gridOptions">
+        </div>
+    </div>
+</div>

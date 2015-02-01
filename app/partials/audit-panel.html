@@ -1,0 +1,293 @@
+<div ng-controller="ApiAuditorController as ctrl" class="panel">
+    <div class="container">
+        <form role="form" ng-submit="ctrl.auditAPI()" novalidate>
+            <div class="form-group">
+                <label for="keyId">keyId</label>
+                <input type="text" class="form-control" id="keyId" ng-model="ctrl.apiKey.keyId"
+                       placeholder="Saisir le keyId ici..." required/>
+            </div>
+            <div class="form-group">
+                <label for="vCode">vCode</label>
+                <input type="text" class="form-control" id="vCode" ng-model="ctrl.apiKey.vCode"
+                       placeholder="Saisir le vCode ici..." required />
+            </div>
+            <button type="submit" class="btn btn-default">Audit</button>
+        </form>
+    </div>
+
+    <div class="container resultPanel" ng-show="ctrl.audit">
+        <div class="row"> <!-- Div API Mandatory Parameters -->
+            <div class="col-md-4">
+                <div ng-class="{ 'has-success':ctrl.audit.apiKeyInfo.type === 'Account', 'has-error': ctrl.audit.apiKeyInfo.type != 'Account'}"
+                     class="form-group has-feedback">
+                    <label class="control-label" for="apiType">Type de l'API</label>
+                    <input type="text" class="form-control" id="apiType" value="{{ctrl.audit.apiKeyInfo.type}}"
+                           readonly>
+                    <span ng-class="{ 'glyphicon-ok':ctrl.audit.apiKeyInfo.type === 'Account', 'glyphicon-remove': ctrl.audit.apiKeyInfo.type != 'Account'}"
+                          class="glyphicon form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div ng-class="{ 'has-success':ctrl.audit.apiKeyInfo.accessMask === 268435455, 'has-error': ctrl.audit.apiKeyInfo.accessMask != 268435455}"
+                     class="form-group has-feedback">
+                    <label class="control-label" for="apiAccessMask">Masque d'acces</label>
+                    <input type="text" class="form-control" id="apiAccessMask"
+                           value="{{ctrl.audit.apiKeyInfo.accessMask}}" readonly>
+                    <span ng-class="{ 'glyphicon-ok':ctrl.audit.apiKeyInfo.accessMask === 268435455, 'glyphicon-remove': ctrl.audit.apiKeyInfo.accessMask != 268435455}"
+                          class="glyphicon form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div ng-class="{ 'has-success':ctrl.audit.apiKeyInfo.expires === null, 'has-error': ctrl.audit.apiKeyInfo.expires != null}"
+                     class="form-group has-feedback">
+                    <label class="control-label" for="apiExpirationDate">Date d'expiration</label>
+                    <input type="text" class="form-control" id="apiExpirationDate"
+                           value="{{ctrl.audit.apiKeyInfo.expires | date:'dd/MM/yyyy'}}" readonly>
+                    <span ng-class="{ 'glyphicon-ok':ctrl.audit.apiKeyInfo.expires === null, 'glyphicon-remove': ctrl.audit.apiKeyInfo.expires != null}"
+                          class="glyphicon form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+        <!-- Div API Mandatory Parameters -->
+
+        <div class="row"> <!-- Div API Parameters -->
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="apiCreationDate">Date creation du compte</label>
+                    <input type="text" class="form-control" id="apiCreationDate"
+                           value="{{ctrl.audit.accountStatus.createDate | date:'dd/MM/yyyy'}}" readonly/>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="apiPaidUntil">Paye jusqu'a</label>
+                    <input type="text" class="form-control" id="apiPaidUntil"
+                           value="{{ctrl.audit.accountStatus.paidUntil | date:'dd/MM/yyyy'}}" readonly/>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="apiLogonCount">Nombre de connexions</label>
+                    <input type="text" class="form-control" id="apiLogonCount"
+                           value="{{ctrl.audit.accountStatus.logonCount}}" readonly/>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="apiLogonTime">Temps de jeu</label>
+                    <input type="text" class="form-control" id="apiLogonTime"
+                           value="{{ctrl.audit.accountStatus.logonTime}}" readonly/>
+                </div>
+            </div>
+        </div>
+        <!-- Fin Div API Parameters -->
+
+        <div class="row"> <!-- Div AccountCharacters -->
+            <div class="col-md-4" ng-repeat="character in ctrl.audit.accountCharacters">
+                <div class="thumbnail">
+                    <img ng-src="{{'http://image.eveonline.com/Character/' + character.characterID + '_256.jpg'}}"
+                         class="imgPilot center-block" alt="{{character.characterName}}">
+
+                    <div class="caption">
+                        <div class="row center-line">
+                            <div>
+                                <h4>{{character.characterName}}
+                                    <small>(Security Status : {{character.securityStatus | number:1}})</small>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="row center-line">
+                            <div>
+                                <img ng-src="{{'http://image.eveonline.com/Corporation/' + character.corporationID + '_30.png'}}"
+                                     class="imgCorpoAlliance" alt="{{character.corporationName}}"> <span>{{character.corporationName}}</span>
+                            </div>
+                        </div>
+                        <div class="row center-line" ng-show="character.allianceID">
+                            <div>
+                                <img ng-src="{{'http://image.eveonline.com/Alliance/' + character.allianceID + '_30.png'}}"
+                                     class="imgCorpoAlliance" alt="{{character.allianceName}}"> <span>{{character.allianceName}}</span>
+                            </div>
+                        </div>
+                        <div class="row center-line">
+                            <div>
+                                <a class="kill" title="zKillboard"
+                                   href="{{'http://zkillboard.com/character/' + character.characterID}}"
+                                   target="_blank"></a>
+                                <a class="kill" title="EVE-Kill"
+                                   href="{{'http://eve-kill.net/?a=pilot_detail&amp;plt_external_id=' + character.characterID}}"
+                                   target="_blank"></a>
+                                <a class="evegate" title="EVE Gate"
+                                   href="{{'https://gate.eveonline.com/Profile/' + character.characterName}}"
+                                   target="_blank"></a>
+                                <a class="eveboard" title="EVEBoard"
+                                   href="{{'http://eveboard.com/pilot/' + character.characterName}}"
+                                   target="_blank"></a>
+                                <a class="evesearch" title="EVE-Search"
+                                   href="{{'http://eve-search.com/search/author/' + character.characterName}}"
+                                   target="_blank"></a>
+                                <a class="evewho" title="EVE Who"
+                                   href="{{'http://evewho.com/pilot/' + character.characterName}}" target="_blank"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin Div AccountCharacters -->
+
+
+        <div> <!-- Div Connections -->
+            <section ng-init="tab = 1">
+                <ul class="nav nav-pills">
+                    <li ng-class="{ active:tab === 1 }"><a href ng-click="tab = 1"><img class="connection"
+                                                                                        src="img/blackducks.png"> Black
+                        ducks <span id="badgeBlackDucks" class="badge badge-important">{{ctrl.audit.connectedBlackDuckAlliances.length + ctrl.audit.connectedBlackDuckCorporations.length + ctrl.audit.connectedBlackDuckCharacters.length}}</span></a>
+                    </li>
+                    <li ng-class="{ active:tab === 2 }"><a href ng-click="tab = 2"><img class="connection"
+                                                                                        src="img/alliances.png">
+                        Alliances <span id="badgeAlliances" class="badge badge-info">{{ctrl.audit.connectedAlliances.length}}</span></a>
+                    </li>
+                    <li ng-class="{ active:tab === 3 }"><a href ng-click="tab = 3"><img class="connection"
+                                                                                        src="img/corporations.png">
+                        Corporations <span id="badgeCorporations" class="badge badge-info">{{ctrl.audit.connectedCorporations.length}}</span></a>
+                    </li>
+                    <li ng-class="{ active:tab === 4 }"><a href ng-click="tab = 4"><img class="connection"
+                                                                                        src="img/characters.png">
+                        Pilotes <span id="badgeCharacters" class="badge badge-info">{{ctrl.audit.connectedCharacters.length}}</span></a>
+                    </li>
+                </ul>
+
+                <div id="divBlackDucksConnections" class="resultPanel" ng-show="tab === 1">
+                    <table id="tableBlackDucksConnections" class="table">
+                        <thead>
+                        <tr>
+                            <th>Personnage</th>
+                            <th>Corporation</th>
+                            <th>Alliance</th>
+                            <th>Origine</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="connection in ctrl.audit.connectedBlackDuckAlliances">
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <img ng-src="{{'http://image.eveonline.com/Alliance/'+connection.allianceID+'_30.png'}}">&nbsp;{{connection.allianceName}}
+                            </td>
+                            <td>
+                                <img class="origin" ng-repeat="origin in connection.origins" title="{{ctrl.getOriginTitle(origin)}}"
+                                     ng-src="{{ctrl.getOriginImg(origin)}}">
+                            </td>
+                        </tr>
+                        <tr ng-repeat="connection in ctrl.audit.connectedBlackDuckCorporations">
+                            <td></td>
+                            <td>
+                                <img ng-src="{{'http://image.eveonline.com/Corporation/'+connection.corporationID+'_30.png'}}">&nbsp;{{connection.corporationName}}
+                            </td>
+                            <td></td>
+                            <td>
+                                <img class="origin" ng-repeat="origin in connection.origins" title="{{ctrl.getOriginTitle(origin)}}"
+                                     ng-src="{{ctrl.getOriginImg(origin)}}">
+                            </td>
+                        </tr>
+                        <tr ng-repeat="connection in ctrl.audit.connectedBlackDuckCharacters">
+                            <td>
+                                <img ng-src="{{'http://image.eveonline.com/Character/'+connection.characterID+'_30.jpg'}}">&nbsp;{{connection.characterName}}
+                            </td>
+                            <td>
+                                <img ng-src="{{'http://image.eveonline.com/Corporation/'+connection.corporationID+'_30.png'}}">&nbsp;{{connection.corporationName}}
+                            </td>
+                            <td>
+                                <img ng-show="connection.allianceID"
+                                     ng-src="{{'http://image.eveonline.com/Alliance/'+connection.allianceID+'_30.png'}}">&nbsp;{{connection.allianceName}}
+                            </td>
+                            <td>
+                                <img class="origin" ng-repeat="origin in connection.origins" title="{{ctrl.getOriginTitle(origin)}}"
+                                     ng-src="{{ctrl.getOriginImg(origin)}}">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="divAllianceConnections" class="resultPanel" ng-show="tab === 2">
+                    <table id="tableAllianceConnections" class="table">
+                        <thead>
+                        <tr>
+                            <th>Alliance</th>
+                            <th>Origine</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="connection in ctrl.audit.connectedAlliances">
+                            <td>
+                                <img ng-src="{{'http://image.eveonline.com/Alliance/'+connection.allianceID+'_30.png'}}">&nbsp;{{connection.allianceName}}
+                            </td>
+                            <td>
+                                <img class="origin" ng-repeat="origin in connection.origins" title="{{ctrl.getOriginTitle(origin)}}"
+                                     ng-src="{{ctrl.getOriginImg(origin)}}">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="divCorporationConnections" class="resultPanel" ng-show="tab === 3">
+                    <table id="tableCorporationConnections" class="table">
+                        <thead>
+                        <tr>
+                            <th>Corporation</th>
+                            <th>Origine</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="connection in ctrl.audit.connectedCorporations">
+                            <td>
+                                <img ng-src="{{'http://image.eveonline.com/Corporation/'+connection.corporationID+'_30.png'}}">&nbsp;{{connection.corporationName}}
+                            </td>
+                            <td>
+                                <img class="origin" ng-repeat="origin in connection.origins" title="{{ctrl.getOriginTitle(origin)}}"
+                                     ng-src="{{ctrl.getOriginImg(origin)}}">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="divCharacterConnections" class="resultPanel" ng-show="tab === 4">
+                    <table id="tableCharacterConnections" class="table">
+                        <thead>
+                        <tr>
+                            <th>Personnage</th>
+                            <th>Corporation</th>
+                            <th>Alliance</th>
+                            <th>Origine</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="connection in ctrl.audit.connectedCharacters">
+                            <td>
+                                <img ng-src="{{'http://image.eveonline.com/Character/'+connection.characterID+'_30.jpg'}}">&nbsp;{{connection.characterName}}
+                            </td>
+                            <td>
+                                <img ng-src="{{'http://image.eveonline.com/Corporation/'+connection.corporationID+'_30.png'}}">&nbsp;{{connection.corporationName}}
+                            </td>
+                            <td>
+                                <img ng-show="connection.allianceID"
+                                     ng-src="{{'http://image.eveonline.com/Alliance/'+connection.allianceID+'_30.png'}}">&nbsp;{{connection.allianceName}}
+                            </td>
+                            <td>
+                                <img class="origin" ng-repeat="origin in connection.origins" title="{{ctrl.getOriginTitle(origin)}}"
+                                     ng-src="{{ctrl.getOriginImg(origin)}}">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+        </div>
+        <!-- Fin Div Connections -->
+    </div>
+</div>
