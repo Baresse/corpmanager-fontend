@@ -1,6 +1,5 @@
 <div ng-controller="WalletController as ctrl" class="panel">
-    <div class="container">
-
+    <div class="container" cg-busy="{promise:promise,message:'Patientez...',backdrop:true,delay:0,minDuration:0}">
         <form role="form" ng-submit="ctrl.fetchCorporationWallet(ctrl.month)" novalidate>
             <div class="form-group">
                 <label for="month">Mois</label>

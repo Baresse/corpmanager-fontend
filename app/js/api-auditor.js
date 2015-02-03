@@ -1,17 +1,19 @@
 'use strict';
 
 (function () {
-    var app = angular.module('api-auditor', []);
+    var app = angular.module('api-auditor', ['ngAnimate', 'cgBusy']);
 
-    app.controller('ApiAuditorController', ['$http', function ($http, $scope) {
+    app.controller('ApiAuditorController', function ($scope, $http) {
         var ctx = this;
 
         this.apiKey = [];
         this.audit = null;
 
+        $scope.promise = null;
+
         this.auditAPI = function () {
             ctx.audit = null;
-            $http.jsonp(CorpManagerServer.rootURL  + '/corp-manager/audit/' + ctx.apiKey.keyId + '/' + ctx.apiKey.vCode + '?callback=JSON_CALLBACK').success(function (data) {
+            $scope.promise = $http.jsonp(CorpManagerServer.rootURL  + '/corp-manager/audit/' + ctx.apiKey.keyId + '/' + ctx.apiKey.vCode + '?callback=JSON_CALLBACK').success(function (data) {
                 ctx.audit = data;
             });
         };
@@ -52,5 +54,5 @@
             }
         };
 
-    }]);
+    });
 })();

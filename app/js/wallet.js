@@ -1,9 +1,9 @@
 'use strict';
 
 (function () {
-    var app = angular.module('wallet', []);
+    var app = angular.module('wallet', ['ngAnimate', 'cgBusy']);
 
-    app.controller('WalletController', ['$http', '$scope', function ($http, $scope) {
+    app.controller('WalletController', function ($scope, $http) {
 
         // Current month used to filter the tax contributions from the wallet division 1
         this.month = new Date(Date.now());
@@ -15,12 +15,14 @@
         // Used to retrieve the controller context in the callback of the promise after the Ajax call
         var ctx = this;
 
+        $scope.promise = null;
+
         //------------------------------------------------------------
-        // Fetch all the journal entries from the wallet Division 1
+        // Fetch all the journal entries
         //------------------------------------------------------------
         this.fetchCorporationWallet = function (date) {
             ctx.walletJournal = null;
-            $http.jsonp(CorpManagerServer.rootURL + '/corp-manager/wallet/journal/' + moment(date).format("YYYY-MM") + '?callback=JSON_CALLBACK').success(function (data) {
+            $scope.promise = $http.jsonp(CorpManagerServer.rootURL + '/corp-manager/wallet/journal/' + moment(date).format("YYYY-MM") + '?callback=JSON_CALLBACK').success(function (data) {
                 ctx.walletJournal = data;
             });
         };
@@ -127,5 +129,5 @@
             filterOptions: $scope.filterOptions
         };
 
-    }]);
+    });
 })();

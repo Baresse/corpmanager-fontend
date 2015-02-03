@@ -102,3 +102,8 @@
     width: 100%;
     text-align: center;
 }
+
+.corpmanager .cg-busy-default-sign{
+    border-top-left-radius:7px;
+    border-top-right-radius:7px;
+}

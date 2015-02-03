@@ -11,6 +11,7 @@
     "jquery": "1.11.1",
     "fontawesome": "4.1.0",
     "ng-grid": "~2.0.11",
-    "moment": "~2.7.0"
+    "moment": "~2.7.0",
+    "angular-busy": "~4.1.2"
   }
 }

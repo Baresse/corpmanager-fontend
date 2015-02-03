@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="bower_components/ng-grid/ng-grid.min.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/angular-busy/dist/angular-busy.min.css">
     <link rel="stylesheet" type="text/css" href="bower_components/fontawesome/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="app.css"/>
@@ -51,7 +52,7 @@
     your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div>
+<div class="corpmanager">
     <whosthat-panel ng-show="viewCtrl.isSelectedTab('whosthat')"></whosthat-panel>
     <audit-panel ng-show="viewCtrl.isSelectedTab('audit')"></audit-panel>
     <wallet-panel ng-show="viewCtrl.isSelectedTab('wallet')"></wallet-panel>
@@ -63,6 +64,8 @@
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="bower_components/angular-animate/angular-animate.min.js"></script>
+<script src="bower_components/angular-busy/dist/angular-busy.min.js"></script>
 
 <script src="bower_components/moment/moment.js"></script>
 <script src="bower_components/ng-grid/ng-grid-2.0.14.min.js"></script>
